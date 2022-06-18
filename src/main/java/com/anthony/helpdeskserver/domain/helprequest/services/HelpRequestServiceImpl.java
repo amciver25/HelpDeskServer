@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HelpRequestServiceImpl implements HelpRequestService{
@@ -24,7 +25,12 @@ public class HelpRequestServiceImpl implements HelpRequestService{
     }
 
     public HelpRequest getById(Long id) throws RequestNotFoundException {
-        return null;
+        Optional<HelpRequest> optionalHelpRequest = helpRequestRepo.findById(id);
+        if(optionalHelpRequest.isEmpty()){
+            throw new RequestNotFoundException("Id Not Found");
+        }
+        HelpRequest helpRequest = optionalHelpRequest.get();
+        return helpRequest;
     }
 
     public List<HelpRequest> getAll() {
