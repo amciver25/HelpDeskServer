@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
+@NoArgsConstructor
 @AllArgsConstructor
 @Data
 @RequiredArgsConstructor

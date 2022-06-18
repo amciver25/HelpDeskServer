@@ -6,14 +6,12 @@ import com.anthony.helpdeskserver.domain.helprequest.services.HelpRequestService
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/help desk")
+@RequestMapping("helpdesk")
 public class HelpRequestController {
+
     private HelpRequestService helpRequestService;
 
     @Autowired
@@ -22,15 +20,19 @@ public class HelpRequestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HelpRequest> requestById(@PathVariable("id") Long id) {
+    public ResponseEntity<?> requestById(@PathVariable("id") Long id) {
         try {
             HelpRequest request = helpRequestService.getById(id);
             return new ResponseEntity<>(request, HttpStatus.OK);
         } catch (RequestNotFoundException ex) {
-            return new ResponseEntity<>("Not found", HttpStatus.OK)
+            return new ResponseEntity<>("Not found", HttpStatus.OK);
         }
     }
 
+    @PostMapping("")
+    public ResponseEntity<HelpRequest> createRequest(@RequestBody HelpRequest helpRequest){
+        helpRequest = helpRequestService.create(helpRequest);
+        return new ResponseEntity<>(helpRequest, HttpStatus.CREATED);
     }
-
+}
 

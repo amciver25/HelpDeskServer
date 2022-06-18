@@ -21,7 +21,7 @@ public class HelpRequestServiceImpl implements HelpRequestService{
 
 
     public HelpRequest create(HelpRequest helpRequest) {
-        return null;
+        return helpRequestRepo.save(helpRequest);
     }
 
     public HelpRequest getById(Long id) throws RequestNotFoundException {
@@ -31,17 +31,21 @@ public class HelpRequestServiceImpl implements HelpRequestService{
         }
         HelpRequest helpRequest = optionalHelpRequest.get();
         return helpRequest;
+
     }
 
     public List<HelpRequest> getAll() {
-        return null;
+        return helpRequestRepo.findAll();
     }
 
     public HelpRequest update(HelpRequest helpRequest) throws RequestNotFoundException {
-        return null;
+        Long id = helpRequest.getId();
+        getById(id);
+        return helpRequestRepo.save(helpRequest);
     }
 
     public void delete(Long id) throws RequestNotFoundException {
-
+        HelpRequest helpRequest = getById(id);
+        helpRequestRepo.delete(helpRequest);
     }
 }
